@@ -90,6 +90,13 @@ while 1:
                 badguys.pop(index)
             badguy[0] -= 7
             index += 1
+            # 6.3.1 Attack castle
+            badrect = pygame.Rect(badguyimg.get_rect())
+            badrect.top = badguy[1]
+            badrect.left = badguy[0]
+            if badrect.left < 64:
+                healtvalue -= random.randint(5, 20)
+            # 6.3.3 Next bad guy
         for badguy in badguys:
             screen.blit(badguyimg, badguy)
 
