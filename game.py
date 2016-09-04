@@ -1,8 +1,6 @@
 # 1 import libarary
-import pygame, sys, math
+import pygame, sys, math, os
 from pygame.locals import *
-
-#import os
 
 # 2 initialize the game
 pygame.init()
@@ -13,13 +11,15 @@ playerpos = [200, 200]
 acc = [0,0]
 arrows = []
 
+# get path to images if windows replace \ with front from path dir
+cwd = os.getcwd().replace('\\', '/')
+
 # 3 Load player images path to images:
-# /home/adam/Documents/githubrepo/BunniesandBadgers/resources/images/
 # change "/home/adam/Documents/githubrepo/" to the location of cloned code
-player = pygame.image.load("/home/adam/Documents/githubrepo/BunniesandBadgers/resources/images/dude.png")
-grass = pygame.image.load("/home/adam/Documents/githubrepo/BunniesandBadgers/resources/images/grass.png")
-castle = pygame.image.load("/home/adam/Documents/githubrepo/BunniesandBadgers/resources/images/castle.png")
-arrow = pygame.image.load("/home/adam/Documents/githubrepo/BunniesandBadgers/resources/images/bullet.png")
+player = pygame.image.load(cwd + "/resources/images/dude.png")
+grass = pygame.image.load(cwd + "/resources/images/grass.png")
+castle = pygame.image.load(cwd + "/resources/images/castle.png")
+arrow = pygame.image.load(cwd + "/resources/images/bullet.png")
 
 # 4 keep looping
 while 1:
@@ -37,9 +37,14 @@ while 1:
 
         # 6.1 set player position and rotation
         position = pygame.mouse.get_pos()
-        angle = math.atan2(position[1]-(playerpos[1]+32),position[0]-(playerpos[0]+26))
+
+        angle = math.atan2(position[1]-(playerpos[1]+32),
+        position[0]-(playerpos[0]+26))
+
         playerrot = pygame.transform.rotate(player, 360-angle*57.29)
-        playerpos1 = (playerpos[0]-playerrot.get_rect().width/2, playerpos[1]-playerrot.get_rect().height/2)
+        playerpos1 = (playerpos[0]-playerrot.get_rect().width/2,
+        playerpos[1]-playerrot.get_rect().height/2)
+
         screen.blit(playerrot, playerpos1)
 
         # 6.2 Draw arrows
@@ -49,11 +54,15 @@ while 1:
             vely = math.sin(bullet[0]) * 10
             bullet[1] += velx
             bullet[2] += vely
-            if bullet[1] < -64 or bullet[1] > 640 or bullet[2] < -64 or bullet[2] > 480:
+            if bullet[1] < -64 or bullet[1] > 640 or \
+             bullet[2] < -64 or bullet[2] > 480:
                 arrows.pop(index)
             index += 1
             for projectile in arrows:
-                arrow1 = pygame.transform.rotate(arrow, 360 - projectile[0] * 57.29)
+
+                arrow1 = pygame.transform.rotate,
+                (arrow, 360 - projectile[0] * 57.29)
+
                 screen.blit(arrow1, (projectile[1], projectile[2]))
 
         # 7 update the screen
@@ -95,7 +104,10 @@ while 1:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 position = pygame.mouse.get_pos()
                 acc[1] += 1
-                arrows.append([math.atan2(position[1]-(playerpos1[1]+32),position[0]-(playerpos1[0]+26)),playerpos1[0]+32,playerpos1[1]+32])
+
+                arrows.append([math.atan2(position[1]-(playerpos1[1]+32),
+                position[0]-(playerpos1[0]+26)),
+                playerpos1[0]+32,playerpos1[1]+32])
 
 
         # 9 - Move player
