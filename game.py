@@ -1,31 +1,47 @@
 # 1 import libarary
-import pygame, sys, math, os
+import pygame, sys, math, os, random
 from pygame.locals import *
 
 # 2 initialize the game
 pygame.init()
-width, height = 640, 480
-screen = pygame.display.set_mode((width, height))
-keys = [False, False, False, False]
-playerpos = [200, 200]
-acc = [0,0]
-arrows = []
+# set screen windows size
+width, height = 640, 480;
+screen = pygame.display.set_mode((width, height));
 
-# get path to images if windows replace \ with front from path dir
-cwd = os.getcwd().replace('\\', '/')
+# predefine key pressed as false
+keys = [False, False, False, False];
+
+# select player position in window
+playerpos = [200, 200];
+
+# shotting arrows variables
+acc = [0,0];
+arrows = [];
+
+# Badguys / enemyes
+badtimer = 100;
+badtimer1 = 0;
+badguys = [[640, 100]];
+healtvalue = 194;
+
+# get path to images. If windows then replace '\' with '/' from path dir
+cwd = os.getcwd().replace('\\', '/');
 
 # 3 Load player images path to images:
-# change "/home/adam/Documents/githubrepo/" to the location of cloned code
-player = pygame.image.load(cwd + "/resources/images/dude.png")
-grass = pygame.image.load(cwd + "/resources/images/grass.png")
-castle = pygame.image.load(cwd + "/resources/images/castle.png")
-arrow = pygame.image.load(cwd + "/resources/images/bullet.png")
+player = pygame.image.load(cwd + "/resources/images/dude.png");
+grass = pygame.image.load(cwd + "/resources/images/grass.png");
+castle = pygame.image.load(cwd + "/resources/images/castle.png");
+arrow = pygame.image.load(cwd + "/resources/images/bullet.png");
+badguyimg1 = pygame.image.load(cwd + "/resources/images/badguy.png");
+badguyimg = badguyimg1;
 
 # 4 keep looping
 while 1:
-        # 5 clear the screen before drawing it again
 
-        screen.fill(0)
+        # 5 clear the screen before drawing it again
+        screen.fill(0);
+        badtimer -= 1
+
         # 6 draw screen player elemtens
         for x in range(width/grass.get_width()+1):
             for y in range(height/grass.get_height()+1):
@@ -38,12 +54,10 @@ while 1:
         # 6.1 set player position and rotation
         position = pygame.mouse.get_pos()
 
-        angle = math.atan2(position[1]-(playerpos[1]+32),
-        position[0]-(playerpos[0]+26))
+        angle = math.atan2(position[1]-(playerpos[1]+32),position[0]-(playerpos[0]+26))
 
         playerrot = pygame.transform.rotate(player, 360-angle*57.29)
-        playerpos1 = (playerpos[0]-playerrot.get_rect().width/2,
-        playerpos[1]-playerrot.get_rect().height/2)
+        playerpos1 = (playerpos[0]-playerrot.get_rect().width/2,playerpos[1]-playerrot.get_rect().height/2)
 
         screen.blit(playerrot, playerpos1)
 
@@ -54,16 +68,31 @@ while 1:
             vely = math.sin(bullet[0]) * 10
             bullet[1] += velx
             bullet[2] += vely
-            if bullet[1] < -64 or bullet[1] > 640 or \
-             bullet[2] < -64 or bullet[2] > 480:
+            if bullet[1] < -64 or bullet[1] > 640 or bullet[2] < -64 or bullet[2] > 480:
                 arrows.pop(index)
             index += 1
             for projectile in arrows:
 
-                arrow1 = pygame.transform.rotate,
-                (arrow, 360 - projectile[0] * 57.29)
+                arrow1 = pygame.transform.rotate(arrow, 360 - projectile[0] * 57.29)
 
                 screen.blit(arrow1, (projectile[1], projectile[2]))
+        # 6.3 Draw badgers
+        if badtimer == 0:
+            badguys.append([640, random.randint(50, 430)])
+            badtimer = 100 - (badtimer1 * 2)
+            if badtimer1 >= 35:
+                badtimer1 = 35
+            else:
+                badtimer1 += 5
+        index = 0
+        for badguy in badguys:
+            if badguy[0] < -64:
+                badguys.pop(index)
+            badguy[0] -= 7
+            index += 1
+        for badguy in badguys:
+            screen.blit(badguyimg, badguy)
+
 
         # 7 update the screen
         pygame.display.flip()
@@ -105,9 +134,7 @@ while 1:
                 position = pygame.mouse.get_pos()
                 acc[1] += 1
 
-                arrows.append([math.atan2(position[1]-(playerpos1[1]+32),
-                position[0]-(playerpos1[0]+26)),
-                playerpos1[0]+32,playerpos1[1]+32])
+                arrows.append([math.atan2(position[1]-(playerpos1[1]+32),position[0]-(playerpos1[0]+26)),playerpos1[0]+32,playerpos1[1]+32])
 
 
         # 9 - Move player
