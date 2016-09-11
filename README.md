@@ -7,8 +7,20 @@ And is practice of programming code.
 I had a great learning experience in doing this code.
 Lot´s of thanks to Julian Meyer.
 
+requirment to run the game.
+
+* pygame libarary
+
 Installations notes:
+
+Windows:
+C:\python27\scripts > pip install pygame
+
+Linux:
+sudo apt-get install pygame -y
+
+Windows and / Linux with Git pre installed:
 git clone https://github.com/adamandersen/BunniesandBadgers
 
-Run the game by opening a terminal and type:
+Run the game by opening an terminal and type:
 python game.py
