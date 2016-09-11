@@ -9,7 +9,7 @@ Lot´s of thanks to Julian Meyer.
 
 requirment to run the game.
 
-* pygame libarary
+pygame libarary
 
 Installations notes:
 
