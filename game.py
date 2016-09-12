@@ -1,9 +1,5 @@
 # 1 import libarary
-import pygame
-import sys
-import math
-import os
-import random
+import pygame, sys, math, os, random
 from pygame.locals import *
 
 # 2 initialize the game
